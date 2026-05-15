@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name — ICT Apprentice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0a0e13;
+      --bg2:      #111720;
+      --bg3:      #1a2030;
+      --border:   #1e2d3d;
+      --accent:   #58a6ff;
+      --green:    #3fb950;
+      --orange:   #f0883e;
+      --text:     #cdd9e5;
+      --muted:    #768390;
+      --mono:     'JetBrains Mono', monospace;
+      --sans:     'Syne', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* grid bg */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(88,166,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(88,166,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap { max-width: 900px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
+
+    /* NAV */
+    nav {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0;
+      background: rgba(10,14,19,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: var(--mono); font-size: 14px; color: var(--green); letter-spacing: 0.5px; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-family: var(--mono); font-size: 13px; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      padding: 7rem 0 6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--green);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .hero-tag::before {
+      content: '';
+      display: inline-block;
+      width: 24px; height: 1px;
+      background: var(--green);
+    }
+    h1 {
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      color: #e6edf3;
+      margin-bottom: 1.5rem;
+      letter-spacing: -1px;
+    }
+    h1 em { color: var(--accent); font-style: normal; }
+    .hero-desc {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+    .hero-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 2.5rem; }
+    .pill {
+      font-family: var(--mono); font-size: 12px;
+      padding: 5px 14px; border-radius: 20px;
+      border: 1px solid var(--border); color: var(--muted); background: var(--bg2);
+    }
+    .pill.live { border-color: #1e4d2a; color: var(--green); background: rgba(63,185,80,0.08); }
+    .cta { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      padding: 11px 24px; border-radius: 6px; font-size: 14px; font-weight: 600;
+      font-family: var(--mono); cursor: pointer; text-decoration: none; border: 1px solid;
+      transition: all 0.2s; display: inline-block;
+    }
+    .btn-primary { background: var(--accent); border-color: var(--accent); color: #0a0e13; }
+    .btn-primary:hover { background: #79c0ff; border-color: #79c0ff; }
+    .btn-ghost { background: transparent; border-color: var(--border); color: var(--text); }
+    .btn-ghost:hover { background: var(--bg3); border-color: var(--muted); }
+
+    /* SECTIONS */
+    section { padding: 5rem 0; border-bottom: 1px solid var(--border); }
+    .sec-label {
+      font-family: var(--mono); font-size: 11px; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 3px; margin-bottom: 0.5rem;
+    }
+    .sec-title { font-size: 2rem; font-weight: 700; color: #e6edf3; margin-bottom: 0.75rem; }
+    .sec-desc { font-family: var(--mono); font-size: 13px; color: var(--muted); max-width: 520px; line-height: 1.8; }
+
+    /* ABOUT */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 3rem; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .about-cell { background: var(--bg2); padding: 1.75rem; }
+    .about-cell .label { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; }
+    .about-cell .val { font-size: 15px; color: var(--text); line-height: 1.6; }
+    .about-cell .val strong { color: #e6edf3; font-weight: 600; }
+
+    /* SKILLS */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 3rem; }
+    .skill-block { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; transition: border-color 0.2s; }
+    .skill-block:hover { border-color: var(--accent); }
+    .skill-block h3 { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { font-family: var(--mono); font-size: 12px; padding: 3px 10px; border-radius: 4px; background: var(--bg3); border: 1px solid var(--border); color: var(--text); }
+    .tag.blue { border-color: #1f4a7d; color: var(--accent); background: rgba(88,166,255,0.06); }
+    .tag.green { border-color: #1a3d24; color: var(--green); background: rgba(63,185,80,0.06); }
+    .tag.orange { border-color: #4d2e0a; color: var(--orange); background: rgba(240,136,62,0.06); }
+
+    /* CONTACT */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+    .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-link { display: flex; align-items: center; gap: 14px; padding: 1rem 1.25rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; text-decoration: none; transition: border-color 0.2s, background 0.2s; }
+    .contact-link:hover { border-color: var(--accent); background: var(--bg3); }
+    .contact-link .icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: var(--bg3); border: 1px solid var(--border); flex-shrink: 0; }
+    .contact-link svg { width: 16px; height: 16px; stroke: var(--accent); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .contact-link .info .clabel { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+    .contact-link .info .cval { font-size: 14px; color: var(--text); }
+
+    .terminal { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .term-bar { background: var(--bg3); padding: 10px 14px; display: flex; align-items: center; gap: 7px; border-bottom: 1px solid var(--border); }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dr { background: #ff5f57; } .dy { background: #febc2e; } .dg { background: #28c840; }
+    .term-name { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-left: 6px; }
+    .term-body { padding: 1.25rem 1.5rem; font-family: var(--mono); font-size: 13px; line-height: 2; }
+    .p { color: var(--green); }
+    .c { color: var(--text); }
+    .o { color: var(--muted); }
+    .o span { color: var(--accent); }
+    .cursor { display: inline-block; width: 8px; height: 15px; background: var(--green); vertical-align: middle; animation: blink 1s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* FOOTER */
+    footer { padding: 2.5rem 0; text-align: center; }
+    footer p { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+    footer span { color: var(--green); }
+
+    @media (max-width: 640px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <div class="nav-logo">~/jonesthala</div>
+    <ul class="nav-links">
+      <li><a href="#about">about</a></li>
+      <li><a href="#skills">skills</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-tag">Hello, World!</div>
+    <h1>Hi, I'm<br><em>Jones</em></h1>
+    <p class="hero-desc">
+      ICT Specialist apprentice — passionate about networking,<br>
+      systems, and building things that actually work.
+    </p>
+    <div class="hero-pills">
+      <span class="pill live">● Available for opportunities</span>
+      <span class="pill">ICT Specialist Apprentice</span>
+      <span class="pill">Switzerland</span>
+    </div>
+    <div class="cta">
+      <a href="#contact" class="btn btn-primary">Get in touch</a>
+      <a href="#skills" class="btn btn-ghost">View my skills</a>
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="sec-label">// 01 — about</div>
+    <div class="sec-title">About me</div>
+    <p class="sec-desc">I'm learning the full stack of ICT — from cables to code. Currently in my apprenticeship, combining hands-on work with theory every day.</p>
+    <div class="about-grid">
+      <div class="about-cell">
+        <div class="label">Currently</div>
+        <div class="val"><strong>ICT Specialist Apprentice</strong><br>Year 1 — combining school and real-world work</div>
+      </div>
+      <div class="about-cell">
+        <div class="label">Focus areas</div>
+        <div class="val"><strong>Networking · Systems · Dev</strong><br>Always exploring new tools and technologies</div>
+      </div>
+      <div class="about-cell">
+        <div class="label">Interests</div>
+        <div class="val">Home labs, open-source, terminals, hardware tinkering, and anything that blinks or beeps</div>
+      </div>
+      <div class="about-cell">
+        <div class="label">Location</div>
+        <div class="val"><strong>Switzerland</strong><br>Open to local opportunities & remote collaboration</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="sec-label">// 02 — skills</div>
+    <div class="sec-title">Skills & tools</div>
+    <p class="sec-desc">A growing toolkit — built through my apprenticeship, self-study, and personal projects.</p>
+    <div class="skills-grid">
+      <div class="skill-block">
+        <h3>Networking</h3>
+        <div class="tags">
+          <span class="tag blue">TCP/IP</span>
+          <span class="tag blue">DNS</span>
+          <span class="tag blue">DHCP</span>
+          <span class="tag blue">VLANs</span>
+          <span class="tag blue">Cisco IOS</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <h3>Systems</h3>
+        <div class="tags">
+          <span class="tag green">Windows Server</span>
+          <span class="tag green">Linux</span>
+          <span class="tag green">Active Directory</span>
+          <span class="tag green">Virtualization</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <h3>Development</h3>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">PowerShell</span>
+          <span class="tag">Bash</span>
+          <span class="tag">HTML/CSS</span>
+          <span class="tag">Git</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <h3>Tools</h3>
+        <div class="tags">
+          <span class="tag orange">VS Code</span>
+          <span class="tag orange">Wireshark</span>
+          <span class="tag orange">VMware</span>
+          <span class="tag orange">Docker</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="sec-label">// 03 — contact</div>
+    <div class="sec-title">Get in touch</div>
+    <p class="sec-desc">Whether it's a project, a question, or just want to connect — feel free to reach out.</p>
+    <div class="contact-grid">
+      <div class="contact-links">
+        <a href="mailto:jones.slush@gmail.com" class="contact-link">
+          <div class="icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+          </div>
+          <div class="info">
+            <div class="clabel">Email</div>
+            <div class="cval">jones.slush@gmail.com</div>
+          </div>
+        </a>
+        <a href="https://github.com/jonesthala" target="_blank" class="contact-link">
+          <div class="icon">
+            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </div>
+          <div class="info">
+            <div class="clabel">GitHub</div>
+            <div class="cval">https://github.com/jonesthala</div>
+          </div>
+        </a>
+        <a href="https://linkedin.com/in/yourprofile" target="_blank" class="contact-link">
+          <div class="icon">
+            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </div>
+          <div class="info">
+            <div class="clabel">LinkedIn</div>
+            <div class="cval">https://www.linkedin.com/in/jones-thala-0372a9335/</div>
+          </div>
+        </a>
+      </div>
+      <div class="terminal">
+        <div class="term-bar">
+          <div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div>
+          <span class="term-name">contact.sh</span>
+        </div>
+        <div class="term-body">
+          <div><span class="p">$</span> <span class="c">whoami</span></div>
+          <div class="o"><span>Your Name</span> — ICT Apprentice</div>
+          <div><span class="p">$</span> <span class="c">cat status.txt</span></div>
+          <div class="o">Open to new connections ✓</div>
+          <div><span class="p">$</span> <span class="c">echo $LOCATION</span></div>
+          <div class="o">Switzerland</div>
+          <div><span class="p">$</span> <span class="cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>built with curiosity · <span>jonesthala.ch</span> · 2025</p>
+  </footer>
+
+</div>
+</body>
+</html>
