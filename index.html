@@ -1461,11 +1461,7 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
     return () => { heroTl.kill(); };
   });
 
-  /* ── River flow: About from left, Skills from bottom ── */
-  gsap.from('#about > *', {
-    scrollTrigger: { trigger: '#about', start: 'top 90%', end: 'top 20%', scrub: 1 },
-    x: -120, opacity: 0, stagger: 0.1, ease: 'none',
-  });
+  /* ── About: handled by CSS .reveal + IntersectionObserver ── */
 
   gsap.from('#skills > *', {
     scrollTrigger: { trigger: '#skills', start: 'top 90%', end: 'top 20%', scrub: 1 },
