@@ -808,38 +808,19 @@
     <div class="face">
       <div class="bays-col">
         <h2>What I've built</h2>
-        <p class="bays-hint">Pick a drive to mount it.</p>
+        <p class="bays-hint">More drives are on the way.</p>
         <div class="bays" role="tablist" aria-label="Projects" aria-orientation="vertical">
-          <button class="bay" type="button" role="tab" id="bay-desk" aria-controls="proj-desk" aria-selected="true">
-            <span class="led" aria-hidden="true"></span>
-            <span><b>CMI Desk</b><span class="sub">desktop app, in daily use</span></span>
-            <span class="grip" aria-hidden="true"></span>
-          </button>
-          <button class="bay" type="button" role="tab" id="bay-nt" aria-controls="proj-nt" aria-selected="false" tabindex="-1">
+          <button class="bay" type="button" role="tab" id="bay-nt" aria-controls="proj-nt" aria-selected="true">
             <span class="led" aria-hidden="true"></span>
             <span><b>NT Digital</b><span class="sub">web agency, side project</span></span>
             <span class="grip" aria-hidden="true"></span>
           </button>
           <div class="bay empty" aria-hidden="true"><span class="led"></span><span>empty bay</span><span class="grip"></span></div>
+          <div class="bay empty" aria-hidden="true"><span class="led"></span><span>empty bay</span><span class="grip"></span></div>
         </div>
       </div>
 
-      <article class="mount" role="tabpanel" id="proj-desk" aria-labelledby="bay-desk">
-        <span class="label">Built at CMI, 2026</span>
-        <h3 class="proj-name">CMI Desk</h3>
-        <p>A Windows app for the CMI service desk. Every support case, from a Zendesk ticket or a phone call, gets its own stopwatch. Entries are stored locally and then filled into the booking portal automatically, so nobody copies fields by hand anymore.</p>
-        <ul class="hl">
-          <li>Version 2, rebuilt from scratch with a clean layered architecture</li>
-          <li>Running cases as cards, each with its own timer</li>
-          <li>Fills bookings into the web portal on its own through an embedded browser</li>
-          <li>Local SQLite database with its own schema migrations</li>
-          <li>Around 1700 automated tests, built and tested on every push</li>
-        </ul>
-        <div class="stack">C# .NET&nbsp;8 WPF Fluent&nbsp;UI SQLite WebView2 xUnit</div>
-        <p class="note"><i class="ph ph-lock-simple" aria-hidden="true"></i>Internal tool, the code is private.</p>
-      </article>
-
-      <article class="mount" role="tabpanel" id="proj-nt" aria-labelledby="bay-nt" hidden>
+      <article class="mount" role="tabpanel" id="proj-nt" aria-labelledby="bay-nt">
         <span class="label">Side project with a colleague</span>
         <h3 class="proj-name">NT Digital</h3>
         <p>A web agency I run with a colleague. We build sites for small businesses in vanilla HTML, CSS and JavaScript. Ship fast, keep it simple.</p>
