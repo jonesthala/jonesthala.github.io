@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jones Thala - ICT apprentice</title>
-  <meta name="description" content="Jones Thala, ICT apprentice in Switzerland. Networks, servers, home lab and the occasional website." />
+  <meta name="description" content="Jones Thala, final-year ICT apprentice at CMI in Switzerland. Public-sector support, systems, home lab and websites." />
   <meta property="og:title" content="Jones Thala - ICT apprentice" />
-  <meta property="og:description" content="Networks, servers, home lab and the occasional website." />
+  <meta property="og:description" content="Final-year ICT apprentice at CMI. Public-sector support, systems and websites." />
   <meta property="og:url" content="https://jonesthala.ch" />
   <meta name="theme-color" content="#e3e4e0" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#131416" media="(prefers-color-scheme: dark)" />
@@ -404,6 +404,8 @@
     .sw-head .lcd { min-width: 240px; }
     .groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 48px; }
     .group { display: grid; gap: 12px; align-content: start; padding-top: 14px; border-top: 1px solid var(--face-line); }
+    .group.wide { grid-column: 1 / -1; }
+    .group.wide .ports { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
     .ports { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 8px 10px; }
     .sport {
       display: grid; grid-template-rows: auto auto auto; justify-items: start; gap: 5px;
@@ -718,7 +720,7 @@
     <div class="face">
       <div class="hero-main">
         <h1 class="hero-name"><span>Jones</span><span>Thala</span></h1>
-        <p class="hero-sub"><strong>ICT apprentice in Switzerland, final year.</strong> I wire networks, run servers and build websites on the side.</p>
+        <p class="hero-sub"><strong>Final-year ICT apprentice at CMI.</strong> I support Swiss public administrations and build websites on the side.</p>
         <div class="hero-cta">
           <a class="btn btn-sig" href="#contact"><i class="ph ph-plugs-connected" aria-hidden="true"></i>Email me</a>
           <a class="btn btn-line" href="#projects">See projects</a>
@@ -757,13 +759,14 @@
           <dt>Host</dt><dd>jones-thala</dd>
           <dt>Role</dt><dd>ICT apprentice</dd>
           <dt>Year</dt><dd>3 of 3</dd>
+          <dt>Team</dt><dd>CMI public-sector support</dd>
           <dt>Site</dt><dd>Switzerland</dd>
           <dt>Status</dt><dd>Open to new connections</dd>
         </dl>
       </div>
       <div class="about-copy">
         <h2>Learning IT from the cable up.</h2>
-        <p><strong>Vocational school in the morning, real IT work in the afternoon.</strong> Networking, systems administration and scripting. I learn something new most days, and when I don't, I go looking for it.</p>
+        <p><strong>I work in public-sector support at CMI.</strong> That covers a lot of ground: dossier management, meeting management, configuring interfaces and keeping application servers running for Swiss public administrations.</p>
         <p>At home I run a small lab where I break things on purpose and fix them again. On the side I build websites for small businesses with a colleague.</p>
         <div class="tapes" aria-label="Interests">
           <span class="tape" style="--rot:-1.5deg">home lab</span>
@@ -791,7 +794,7 @@
         </div>
         <div class="lcd" aria-live="polite">
           <span class="dim">ports up</span>
-          <span class="big" id="link-count">0/29</span>
+          <span class="big" id="link-count">0/30</span>
           <span id="link-last">waiting for link</span>
         </div>
       </div>
@@ -939,15 +942,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── Skill ports (built from data) ─────────────── */
   const SKILLS = {
-    'Networking':     ['TCP/IP', 'DNS', 'DHCP', 'VLANs', 'Subnetting', 'Routing', 'Firewalls', 'Cisco'],
-    'Systems':        ['Linux', 'Windows Server', 'Active Directory', 'VMware', 'Hyper-V', 'Proxmox', 'Virtualization'],
-    'Dev & scripting':['C# / .NET', 'WPF', 'SQLite', 'PowerShell', 'Bash', 'HTML / CSS', 'Python', 'Git', 'Docker'],
-    'Tools':          ['VS Code', 'Wireshark', 'Packet Tracer', 'pfSense', 'Nmap'],
+    'CMI public sector': ['Dossier management', 'Meeting management', 'Interface configuration', 'Application servers', 'Customer support'],
+    'Networking':     ['TCP/IP', 'DNS', 'DHCP', 'VLANs', 'Subnetting', 'Routing', 'Firewalls'],
+    'Systems':        ['Linux', 'Windows Server', 'Active Directory', 'VMware', 'Proxmox', 'Virtualization'],
+    'Dev & scripting':['C# / .NET', 'WPF', 'SQLite', 'PowerShell', 'Bash', 'HTML / CSS', 'Git', 'Docker'],
+    'Tools':          ['VS Code', 'Wireshark', 'Packet Tracer', 'Zendesk'],
   };
   const groupsEl = $('#groups');
-  Object.entries(SKILLS).forEach(([group, items]) => {
+  Object.entries(SKILLS).forEach(([group, items], gi) => {
     const g = document.createElement('div');
-    g.className = 'group';
+    g.className = gi === 0 ? 'group wide' : 'group';
     g.innerHTML = `<span class="label">${group}</span><div class="ports">${items.map(n =>
       `<button class="sport" type="button" aria-pressed="false" data-name="${n}">
          <span class="sport-name">${n}</span>
@@ -998,8 +1002,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dev.classList.add('on');
     if (dev.id === 'skills') plugAll();
   }
-  setTimeout(() => { powerOn(hero); tick(); }, reduce ? 0 : 450);
-  setInterval(tick, 1000);
+  setTimeout(() => { powerOn(hero); tick(); }, reduce ? 0 : 450);  setInterval(tick, 1000);
 
   /* Devices slide in as they reach the viewport. CSS transitions + IntersectionObserver,
      so nothing stays hidden when the user jumps past a device via an anchor link. */
