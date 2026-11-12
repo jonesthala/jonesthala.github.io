@@ -497,6 +497,63 @@
     }
     .slot-free::before { content: attr(data-u); position: absolute; left: -33px; top: 4px; width: 24px; font: 500 9px/1 var(--mono); color: #7d8084; text-align: center; }
 
+    /* ───────────── LIVE LAB NODE ─────────────
+       Real data from the Proxmox server at home, via a read-only status API. */
+    .lab .face { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(28px, 4vw, 56px); align-items: center; }
+    .lab-copy { display: grid; gap: 18px; align-content: center; }
+    .lab-copy > p { max-width: 44ch; color: var(--face-2); }
+    .lab-copy > p b { color: var(--face-ink); font-weight: 600; }
+    .lab-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; }
+    .lab-rtt { font: 600 14px/1.3 var(--mono); color: var(--face-ink); font-variant-numeric: tabular-nums; }
+    .node {
+      display: grid; gap: 12px;
+      padding: clamp(14px, 2vw, 22px);
+      background: var(--steel-2);
+      border-radius: var(--r);
+      box-shadow: inset 0 2px 12px rgba(0,0,0,.5), 0 1px 0 rgba(255,255,255,.05);
+    }
+    .trace { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; }
+    .wire { position: relative; height: 4px; border-radius: 2px; background: repeating-linear-gradient(90deg, var(--steel-line) 0 6px, transparent 6px 10px); }
+    .pkt {
+      position: absolute; top: 50%; left: 0;
+      width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%;
+      background: var(--sig); box-shadow: 0 0 0 3px color-mix(in srgb, var(--sig) 25%, transparent);
+      opacity: 0;
+    }
+    .node-lcd { gap: 6px; }
+    .node-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+    .node-top b { font-weight: 600; }
+    #lab-ecg { display: block; width: 100%; height: 56px; color: inherit; }
+    .node-stats { display: flex; flex-wrap: wrap; gap: 4px 18px; font-variant-numeric: tabular-nums; }
+    .node-stats b { font-weight: 600; }
+    .node-head { display: grid; grid-template-columns: minmax(0, 1fr) 92px; gap: 12px; align-items: stretch; }
+    .cts { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(136px, 1fr)); gap: 6px; }
+    .ct {
+      display: grid; grid-template-columns: 8px minmax(0, 1fr) auto; align-items: center; gap: 10px;
+      padding: 8px 10px;
+      background: var(--steel-3); border-radius: 2px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 1px 0 rgba(0,0,0,.4);
+      font: 500 12px/1.2 var(--mono); color: var(--face-ink);
+      transition: transform .5s var(--ease), opacity .5s var(--ease), color .25s;
+    }
+    .ct-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ct-up { color: var(--face-2); font-size: 11px; }
+    .ct.stopped { color: var(--face-2); }
+    .ct.enter, .ct.leave { opacity: 0; transform: translateX(18px); }
+    .dev.on .ct .led.blip {
+      background: #fff3ea;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--sig) 45%, transparent), 0 0 10px var(--sig);
+    }
+    .fan-box {
+      display: grid; place-items: center;
+      border-radius: 2px;
+      background: radial-gradient(circle, var(--hole) 1.6px, transparent 2px) 0 0 / 7px 7px, var(--steel-3);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 1px 0 rgba(0,0,0,.4);
+    }
+    .fan { display: block; font-size: 56px; line-height: 1; color: var(--face-2); }
+    .node-foot { font: 500 12px/1.45 var(--mono); color: var(--face-2); min-height: 1.45em; }
+    .node[data-state="offline"] .fan, .node[data-state="connecting"] .fan { opacity: .45; }
+
     /* ───────────── CONTACT / UPLINK ───────────── */
     .contact .face { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(28px, 4vw, 56px); align-items: start; }
     .contact h2 { font-size: clamp(2.3rem, 5.2vw, 4.6rem); font-stretch: 122%; }
@@ -642,7 +699,7 @@
     @media (max-width: 900px) {
       .pp-dummy, .pp-gap { display: none; }
       .groups { grid-template-columns: 1fr; }
-      .contact .face, .projects .face { grid-template-columns: 1fr; }
+      .contact .face, .projects .face, .lab .face { grid-template-columns: 1fr; }
       .hero .face { grid-template-columns: 1fr; }
       .ctrl { flex-direction: row; flex-wrap: wrap; align-items: center; }
       .vents { display: none; }
@@ -673,10 +730,26 @@
       .sport-name { font-size: 11px; }
       .bay[aria-selected="true"] { transform: translateX(6px); }
       .patch-area { height: 240px; }
+      .node-head { grid-template-columns: minmax(0, 1fr) 60px; }
+      .fan { font-size: 40px; }
+      .cts { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); }
+      .ct { gap: 8px; padding: 7px 8px; }
+    }
+    @media (max-width: 440px) {
+      .ct { grid-template-columns: 8px minmax(0, 1fr); }
+      .ct-up { display: none; }
+      .node-head { grid-template-columns: 1fr; }
+      .fan-box { display: none; }
+      .node-top { flex-wrap: wrap; }
     }
     @media (max-width: 380px) {
       .pp-port .pp-label { font-size: 9px; }
-      .pp-ports { gap: 7px; }
+      .pp-ports { gap: 6px; }
+      .pp-port .sock { width: 24px; height: 18px; }
+      .patch .face { gap: 8px; padding: 8px 6px; }
+      .pp-tools { gap: 6px; }
+      .rocker { min-height: 40px; }
+      .keycap { padding: 0 8px; }
     }
   </style>
 </head>
@@ -695,9 +768,9 @@
         <a class="pp-port" href="#about"><span class="sock"><span class="boot"></span></span><span class="led" aria-hidden="true"></span><span class="pp-label">about</span></a>
         <a class="pp-port" href="#skills"><span class="sock"><span class="boot"></span></span><span class="led" aria-hidden="true"></span><span class="pp-label">skills</span></a>
         <a class="pp-port" href="#projects"><span class="sock"><span class="boot"></span></span><span class="led" aria-hidden="true"></span><span class="pp-label">projects</span></a>
+        <a class="pp-port" href="#lab"><span class="sock"><span class="boot"></span></span><span class="led" aria-hidden="true"></span><span class="pp-label">lab</span></a>
         <a class="pp-port" href="#contact"><span class="sock"><span class="boot"></span></span><span class="led" aria-hidden="true"></span><span class="pp-label">contact</span></a>
         <span class="pp-gap" aria-hidden="true"></span>
-        <span class="pp-port pp-dummy" aria-hidden="true"><span class="sock"></span><span class="pp-label">05</span></span>
         <span class="pp-port pp-dummy" aria-hidden="true"><span class="sock"></span><span class="pp-label">06</span></span>
         <span class="pp-port pp-dummy" aria-hidden="true"><span class="sock"></span><span class="pp-label">07</span></span>
         <span class="pp-port pp-dummy" aria-hidden="true"><span class="sock"></span><span class="pp-label">08</span></span>
@@ -845,7 +918,40 @@
     <span class="ear" aria-hidden="true"></span>
   </section>
 
-  <div class="slot-free" data-u="U8">2U free. The next project slides in here.</div>
+  <!-- U8 live homelab node: real data from the Proxmox server at home -->
+  <section class="dev steel lab" id="lab" data-u="U8" style="--u:7" aria-labelledby="lab-title">
+    <span class="ear" aria-hidden="true"></span>
+    <div class="face">
+      <div class="lab-copy">
+        <span class="label">Live, read-only</span>
+        <h2 id="lab-title">My lab, live.</h2>
+        <p>This is the actual Proxmox server in my home, running <b id="lab-count">a few containers</b>. Every value on the right comes straight from it, every two seconds. Send it a ping and watch it answer.</p>
+        <div class="lab-actions">
+          <button class="btn btn-sig" id="lab-ping" type="button"><i class="ph ph-paper-plane-tilt" aria-hidden="true"></i>Ping my server</button>
+          <span class="lab-rtt" id="lab-rtt" aria-live="polite"></span>
+        </div>
+        <p class="note"><i class="ph ph-lock-simple" aria-hidden="true"></i>Nothing on this page can change the server.</p>
+      </div>
+      <div class="node" id="lab-node" data-state="connecting">
+        <div class="trace" aria-hidden="true"><span class="label">you</span><span class="wire"><span class="pkt" id="lab-pkt"></span></span><span class="label">pve, ch</span></div>
+        <div class="node-head">
+          <div class="lcd node-lcd">
+            <div class="node-top"><b id="lab-host">pve</b><span class="dim" id="lab-hw">connecting</span></div>
+            <canvas id="lab-ecg" aria-hidden="true"></canvas>
+            <div class="node-stats">
+              <span><span class="dim">up</span> <b id="lab-up">--</b></span>
+              <span><span class="dim">cpu</span> <b id="lab-cpu">--</b></span>
+              <span><span class="dim">ram</span> <b id="lab-mem">--</b></span>
+            </div>
+          </div>
+          <div class="fan-box" aria-hidden="true"><span class="fan" id="lab-fan"><i class="ph ph-fan"></i></span></div>
+        </div>
+        <ul class="cts" id="lab-cts" aria-label="Containers on the server"></ul>
+        <p class="node-foot" id="lab-foot">connecting to pve</p>
+      </div>
+    </div>
+    <span class="ear" aria-hidden="true"></span>
+  </section>
 
   <!-- U6 contact uplink -->
   <section class="dev sig contact" id="contact" data-u="U6" style="--u:7">
@@ -1062,6 +1168,226 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  /* ── Live lab: real data from my Proxmox server ─
+     A read-only status API in its own container, published through Tailscale
+     Funnel. Every heartbeat on the LCD is a real answer from the server. */
+  const LAB = (() => {
+    const dev = new URLSearchParams(location.search).get('lab');
+    return dev && /^http:\/\/(localhost|127\.0\.0\.1)(:\d{1,5})?$/.test(dev) ? dev : 'https://status.tail8a09ee.ts.net';
+  })();
+  const labSec = $('#lab'), node = $('#lab-node'), ctList = $('#lab-cts');
+  const el = id => document.getElementById(id);
+  const labUi = { host: el('lab-host'), hw: el('lab-hw'), up: el('lab-up'), cpu: el('lab-cpu'), mem: el('lab-mem'),
+                  count: el('lab-count'), foot: el('lab-foot'), rtt: el('lab-rtt'), pkt: el('lab-pkt'), fan: el('lab-fan') };
+  let labState = 'connecting', labFails = 0, labTimer = null, labBusy = false, labSeen = false, labLast = null;
+  let upBase = null, upAt = 0;
+
+  async function labFetch(path) {
+    const ctl = new AbortController();
+    const t = setTimeout(() => ctl.abort(), 4000);
+    try {
+      const r = await fetch(LAB + path, { cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer', signal: ctl.signal });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return await r.json();
+    } finally { clearTimeout(t); }
+  }
+
+  const fmtUp = s => `${Math.floor(s / 86400)}d ${pad(Math.floor(s % 86400 / 3600))}:${pad(Math.floor(s % 3600 / 60))}:${pad(Math.floor(s % 60))}`;
+  const fmtShort = s => s >= 86400 ? `${Math.floor(s / 86400)}d` : s >= 3600 ? `${Math.floor(s / 3600)}h` : `${Math.max(1, Math.floor(s / 60))}m`;
+  const pct = v => typeof v === 'number' ? `${Math.round(v)}%` : '--';
+
+  /* fan speed follows the real CPU load */
+  const fanAnim = (!reduce && labUi.fan.animate)
+    ? labUi.fan.animate([{ transform: 'rotate(0deg)' }, { transform: 'rotate(360deg)' }], { duration: 1400, iterations: Infinity })
+    : null;
+  if (fanAnim) fanAnim.pause();
+
+  function setLabState(s) {
+    labState = s;
+    node.dataset.state = s;
+    if (s === 'offline') {
+      $$('.led', ctList).forEach(l => l.classList.remove('lit'));
+      $$('.ct-up', ctList).forEach(u => { u.textContent = '--'; });
+      labUi.hw.textContent = 'offline';
+      labUi.cpu.textContent = labUi.mem.textContent = labUi.up.textContent = '--';
+      labUi.foot.textContent = "pve isn't answering right now. Maybe a power cut, or it's moving to new hardware.";
+      if (fanAnim) fanAnim.pause();
+      upBase = null;
+    }
+  }
+
+  function renderLab(d) {
+    labLast = d;
+    setLabState(d.ok ? 'online' : 'stale');
+    labUi.host.textContent = d.host || 'pve';
+    const hw = d.hw || {};
+    labUi.hw.textContent = [hw.cpu, hw.mem_gb ? hw.mem_gb + ' GB' : null, 'proxmox'].filter(Boolean).join(' · ');
+    if (typeof d.uptime_s === 'number') {
+      upBase = d.uptime_s + Math.max(0, (d.now || 0) - (d.updated || d.now || 0));
+      upAt = Date.now();
+      labUi.up.textContent = fmtUp(upBase);
+    }
+    labUi.cpu.textContent = pct(d.cpu);
+    labUi.mem.textContent = pct(d.mem);
+    if (typeof d.running === 'number') {
+      labUi.count.textContent = d.running === d.total ? `${d.running} containers` : `${d.running} of ${d.total} containers`;
+    }
+    labUi.foot.textContent = d.ok
+      ? 'live. updated every 2 s through Tailscale Funnel'
+      : `the values are ${Math.max(0, (d.now || 0) - (d.updated || 0))} s old. the dashboard behind the API is not answering`;
+    if (fanAnim) { fanAnim.playbackRate = .35 + Math.min(4, (d.cpu || 0) / 18); fanAnim.play(); }
+
+    const guests = Array.isArray(d.guests) ? d.guests : [];
+    const want = new Set(guests.map(g => String(g.id)));
+    $$('.ct', ctList).forEach(li => {
+      if (!want.has(li.dataset.id) && !li.classList.contains('leave')) {
+        li.classList.add('leave');
+        setTimeout(() => li.remove(), reduce ? 0 : 500);
+      }
+    });
+    guests.forEach(g => {
+      const id = String(g.id);
+      let li = ctList.querySelector(`.ct[data-id="${id}"]:not(.leave)`);
+      if (!li) {
+        li = document.createElement('li');
+        li.className = reduce ? 'ct' : 'ct enter';
+        li.dataset.id = id;
+        li.innerHTML = '<span class="led" aria-hidden="true"></span><span class="ct-name"></span><span class="ct-up"></span>';
+        const next = $$('.ct:not(.leave)', ctList).find(x => +x.dataset.id > g.id);
+        ctList.insertBefore(li, next || null);
+        if (!reduce) requestAnimationFrame(() => requestAnimationFrame(() => li.classList.remove('enter')));
+      }
+      const running = g.status === 'running';
+      li.querySelector('.ct-name').textContent = g.name;
+      li.querySelector('.ct-up').textContent = running ? fmtShort(g.uptime_s || 0) : 'off';
+      li.classList.toggle('stopped', !running);
+      li.querySelector('.led').classList.toggle('lit', running);
+    });
+  }
+
+  /* heartbeat LCD: one beat per real answer, flat line when the server is gone */
+  const ecg = el('lab-ecg'), ectx = ecg.getContext('2d');
+  const WAVE = [.05, .09, .05, 0, 0, -.1, 1, -.38, 0, .03, .1, .15, .11, .04];
+  let ew = 0, eh = 0, dpr = 1, trace = [], beats = [], ecgColor = '#ff8d52', frame = 0, rafOn = false, lastT = 0;
+  function sizeEcg() {
+    dpr = Math.min(2, window.devicePixelRatio || 1);
+    ew = ecg.clientWidth; eh = ecg.clientHeight;
+    ecg.width = Math.round(ew * dpr); ecg.height = Math.round(eh * dpr);
+    trace = new Array(Math.max(2, Math.ceil(ew / 2))).fill(0);
+    drawEcg();
+  }
+  function beat(strength = 1) {
+    if (reduce || !rafOn) return;
+    if (beats.length > WAVE.length) beats.length = 0; /* never let beats pile up */
+    WAVE.forEach(v => beats.push(v * strength));
+    for (let i = 0; i < 6; i++) beats.push(0);
+  }
+  function drawEcg() {
+    if (!ew) return;
+    if (frame++ % 30 === 0) ecgColor = getComputedStyle(ecg).color;
+    ectx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ectx.clearRect(0, 0, ew, eh);
+    ectx.strokeStyle = ecgColor;
+    ectx.lineWidth = 1.6;
+    ectx.lineJoin = 'round';
+    ectx.beginPath();
+    const mid = eh * .64, amp = eh * .52;
+    trace.forEach((v, i) => { const x = i * 2, y = mid - v * amp; i ? ectx.lineTo(x, y) : ectx.moveTo(x, y); });
+    ectx.stroke();
+  }
+  function ecgLoop(t) {
+    if (!rafOn) return;
+    /* time based: 60 samples per second, however often the browser draws */
+    const steps = lastT ? Math.min(trace.length, Math.round((t - lastT) / (1000 / 60))) : 1;
+    if (steps > 0) {
+      lastT = t;
+      const alive = labState === 'online' || labState === 'stale';
+      for (let i = 0; i < steps; i++) {
+        trace.push(beats.length ? beats.shift() : (alive ? (Math.random() - .5) * .025 : 0));
+        trace.shift();
+      }
+      drawEcg();
+    }
+    requestAnimationFrame(ecgLoop);
+  }
+
+  async function labPoll() {
+    if (labBusy) return;
+    labBusy = true;
+    clearTimeout(labTimer);
+    try {
+      renderLab(await labFetch('/v1/status'));
+      labFails = 0;
+      beat(1);
+    } catch (err) {
+      if (++labFails >= 2 || labState === 'connecting') setLabState('offline');
+    } finally {
+      labBusy = false;
+      if (labSeen && !document.hidden) labTimer = setTimeout(labPoll, labState === 'offline' ? 6000 : 2000);
+    }
+  }
+
+  setInterval(() => {
+    if (upBase !== null && labState !== 'offline') labUi.up.textContent = fmtUp(upBase + (Date.now() - upAt) / 1000);
+  }, 1000);
+
+  function movePkt(from, to, ms) {
+    if (reduce || !labUi.pkt.animate) return Promise.resolve();
+    return labUi.pkt.animate([{ left: from + '%', opacity: 1 }, { left: to + '%', opacity: 1 }],
+      { duration: ms, easing: 'cubic-bezier(.45,0,.55,1)', fill: 'forwards' }).finished.catch(() => {});
+  }
+  function ripple() {
+    if (reduce) return;
+    $$('.led', ctList).forEach((l, i) => setTimeout(() => {
+      l.classList.add('blip');
+      setTimeout(() => l.classList.remove('blip'), 160);
+    }, i * 55));
+  }
+  let pinging = false;
+  async function labPing() {
+    if (pinging) return;
+    pinging = true;
+    labUi.rtt.textContent = 'pinging pve';
+    const out = movePkt(0, 100, 450);
+    const t0 = performance.now();
+    let ms = null;
+    try { const r = await labFetch('/v1/ping?t=' + Date.now()); if (r && r.pong) ms = performance.now() - t0; } catch (err) {}
+    await out;
+    if (ms === null) {
+      if (!reduce && labUi.pkt.animate) labUi.pkt.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, fill: 'forwards' });
+      labUi.rtt.textContent = 'no reply. pve seems to be offline';
+    } else {
+      beat(1.4);
+      ripple();
+      await movePkt(100, 0, 450);
+      if (!reduce && labUi.pkt.animate) labUi.pkt.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, fill: 'forwards' });
+      labUi.rtt.textContent = `${Math.round(ms)} ms, reply from ${labLast && labLast.host ? labLast.host : 'pve'}`;
+    }
+    pinging = false;
+  }
+  $('#lab-ping').addEventListener('click', labPing);
+
+  /* only talk to the server while the section is on screen */
+  new ResizeObserver(sizeEcg).observe(ecg);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        labSeen = e.isIntersecting;
+        if (labSeen) {
+          labPoll();
+          if (!rafOn && !reduce) { rafOn = true; lastT = 0; requestAnimationFrame(ecgLoop); }
+        } else {
+          rafOn = false;
+          clearTimeout(labTimer);
+        }
+      });
+    }, { rootMargin: '200px 0px' }).observe(labSec);
+  } else { labSeen = true; labPoll(); }
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) clearTimeout(labTimer);
+    else if (labSeen) labPoll();
+  });
+
   /* ── Patch panel: active section ───────────────── */
   const navPorts = $$('.pp-port[href]');
   const io = new IntersectionObserver(entries => {
@@ -1074,7 +1400,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }, { rootMargin: '-45% 0px -50% 0px' });
-  ['top', 'about', 'skills', 'projects', 'contact'].forEach(id => io.observe(document.getElementById(id)));
+  ['top', 'about', 'skills', 'projects', 'lab', 'contact'].forEach(id => io.observe(document.getElementById(id)));
 
   /* ── Contact: drag the cable ───────────────────── */
   const area = $('#patch-area'), plug = $('#plug'), src = $('#src'), dst = $('#dst');
@@ -1159,6 +1485,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { group: 'Navigate', label: 'About',          icon: 'ph-hash',            action: go('about') },
     { group: 'Navigate', label: 'Skills',         icon: 'ph-hash',            action: go('skills') },
     { group: 'Navigate', label: 'Projects',       icon: 'ph-hash',            action: go('projects') },
+    { group: 'Navigate', label: 'My lab, live',   icon: 'ph-hash',            action: go('lab') },
     { group: 'Navigate', label: 'Contact',        icon: 'ph-hash',            action: go('contact') },
     { group: 'Navigate', label: 'Back to top',    icon: 'ph-arrow-up',        action: () => window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }) },
     { group: 'Open',     label: 'Email me',       icon: 'ph-envelope-simple', action: () => { location.href = 'mailto:jones.slush@gmail.com'; } },
@@ -1168,6 +1495,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { group: 'Open',     label: 'Instagram',      icon: 'ph-instagram-logo',  action: () => window.open('https://www.instagram.com/jx0nes/', '_blank', 'noopener') },
     { group: 'Rack',     label: 'Toggle room lights', icon: 'ph-lightbulb',   action: toggleLights },
     { group: 'Rack',     label: 'Restart the rack',   icon: 'ph-power',       action: () => { window.scrollTo({ top: 0 }); reboot(); } },
+    { group: 'Rack',     label: 'Ping my server',     icon: 'ph-paper-plane-tilt', action: () => { go('lab')(); setTimeout(labPing, reduce ? 0 : 600); } },
   ];
   const pal = $('#cmd-palette'), input = $('#cmd-input'), list = $('#cmd-list');
   let sel = 0, filtered = COMMANDS, lastFocus = null;
