@@ -928,8 +928,9 @@
         <p>This is the actual Proxmox server in my home, running <b id="lab-count">a few containers</b>. Every value on the right comes straight from it, every two seconds. Send it a ping and watch it answer.</p>
         <div class="lab-actions">
           <button class="btn btn-sig" id="lab-ping" type="button"><i class="ph ph-paper-plane-tilt" aria-hidden="true"></i>Ping my server</button>
-          <span class="lab-rtt" id="lab-rtt" aria-live="polite"></span>
+          <a class="btn btn-line" href="https://github.com/jonesthala/homelab-status" target="_blank" rel="noopener noreferrer"><i class="ph ph-github-logo" aria-hidden="true"></i>Source</a>
         </div>
+        <span class="lab-rtt" id="lab-rtt" aria-live="polite"></span>
         <p class="note"><i class="ph ph-lock-simple" aria-hidden="true"></i>Nothing on this page can change the server.</p>
       </div>
       <div class="node" id="lab-node" data-state="connecting">
@@ -1491,6 +1492,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { group: 'Open',     label: 'Email me',       icon: 'ph-envelope-simple', action: () => { location.href = 'mailto:jones.slush@gmail.com'; } },
     { group: 'Open',     label: 'GitHub',         icon: 'ph-github-logo',     action: () => window.open('https://github.com/jonesthala', '_blank', 'noopener') },
     { group: 'Open',     label: 'NT Digital',     icon: 'ph-arrow-up-right',  action: () => window.open('https://nt-digital-ch.vercel.app', '_blank', 'noopener') },
+    { group: 'Open',     label: 'Lab status API source', icon: 'ph-github-logo', action: () => window.open('https://github.com/jonesthala/homelab-status', '_blank', 'noopener') },
     { group: 'Open',     label: 'LinkedIn',       icon: 'ph-linkedin-logo',   action: () => window.open('https://www.linkedin.com/in/jones-thala-0372a9335/', '_blank', 'noopener') },
     { group: 'Open',     label: 'Instagram',      icon: 'ph-instagram-logo',  action: () => window.open('https://www.instagram.com/jx0nes/', '_blank', 'noopener') },
     { group: 'Rack',     label: 'Toggle room lights', icon: 'ph-lightbulb',   action: toggleLights },
