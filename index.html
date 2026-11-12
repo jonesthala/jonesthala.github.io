@@ -467,6 +467,7 @@
     .mount[hidden] { display: none; }
     .proj-name { font-weight: 800; font-stretch: 118%; font-size: clamp(1.8rem, 3vw, 2.6rem); line-height: 1.02; letter-spacing: -.025em; }
     .mount > p { color: var(--face-2); max-width: 54ch; }
+    .mount code { font: 500 .88em/1 var(--mono); color: var(--face-ink); background: var(--steel-3); padding: 2px 6px; border-radius: 2px; }
     .hl { list-style: none; display: grid; gap: 8px; }
     .hl li { display: grid; grid-template-columns: 10px minmax(0, 1fr); gap: 12px; align-items: baseline; font-size: 15px; line-height: 1.45; }
     .hl li::before { content: ""; width: 7px; height: 7px; background: var(--sig); border-radius: 1px; transform: translateY(-1px); }
@@ -891,7 +892,11 @@
             <span><b>NT Digital</b><span class="sub">web agency, side project</span></span>
             <span class="grip" aria-hidden="true"></span>
           </button>
-          <div class="bay empty" aria-hidden="true"><span class="led"></span><span>empty bay</span><span class="grip"></span></div>
+          <button class="bay" type="button" role="tab" id="bay-mc" aria-controls="proj-mc" aria-selected="false" tabindex="-1">
+            <span class="led" aria-hidden="true"></span>
+            <span><b>Minecraft on demand</b><span class="sub">discord bot, open source</span></span>
+            <span class="grip" aria-hidden="true"></span>
+          </button>
           <div class="bay empty" aria-hidden="true"><span class="led"></span><span>empty bay</span><span class="grip"></span></div>
         </div>
       </div>
@@ -910,6 +915,24 @@
         <div class="proj-links">
           <a class="btn btn-sig" href="https://nt-digital-ch.vercel.app" target="_blank" rel="noopener noreferrer"><i class="ph ph-arrow-up-right" aria-hidden="true"></i>Live site</a>
           <a class="btn btn-line" href="https://github.com/NT-Digital-CH/NT-Digital" target="_blank" rel="noopener noreferrer"><i class="ph ph-github-logo" aria-hidden="true"></i>GitHub</a>
+        </div>
+      </article>
+
+      <article class="mount" role="tabpanel" id="proj-mc" aria-labelledby="bay-mc" hidden>
+        <span class="label">Open source, runs in my lab</span>
+        <h3 class="proj-name">Minecraft on demand</h3>
+        <p>A Discord bot for my friends. Someone types <code>/mc start</code> and a Minecraft server boots in Docker on my Proxmox server. When nobody has played for 15 minutes, it stops itself, backs up the world and frees the RAM.</p>
+        <ul class="hl">
+          <li>Slash commands for everyone, an admin role for servers and the whitelist</li>
+          <li>Paper or Vanilla versions, suggested live from the PaperMC and Mojang APIs and pinned per world</li>
+          <li>Public address through a playit.gg tunnel, because my provider uses CGNAT</li>
+          <li>Game containers fenced off from my home network with iptables</li>
+          <li>Install guide and tests, so anyone can run it on their own server</li>
+        </ul>
+        <div class="stack">Python discord.py Docker Proxmox iptables</div>
+        <div class="proj-links">
+          <a class="btn btn-sig" href="https://github.com/jonesthala/mc-discord-bot" target="_blank" rel="noopener noreferrer"><i class="ph ph-github-logo" aria-hidden="true"></i>GitHub</a>
+          <a class="btn btn-line" href="#lab"><i class="ph ph-pulse" aria-hidden="true"></i>My lab, live</a>
         </div>
       </article>
 
@@ -1493,6 +1516,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { group: 'Open',     label: 'GitHub',         icon: 'ph-github-logo',     action: () => window.open('https://github.com/jonesthala', '_blank', 'noopener') },
     { group: 'Open',     label: 'NT Digital',     icon: 'ph-arrow-up-right',  action: () => window.open('https://nt-digital-ch.vercel.app', '_blank', 'noopener') },
     { group: 'Open',     label: 'Lab status API source', icon: 'ph-github-logo', action: () => window.open('https://github.com/jonesthala/homelab-status', '_blank', 'noopener') },
+    { group: 'Open',     label: 'Minecraft bot on GitHub', icon: 'ph-github-logo', action: () => window.open('https://github.com/jonesthala/mc-discord-bot', '_blank', 'noopener') },
     { group: 'Open',     label: 'LinkedIn',       icon: 'ph-linkedin-logo',   action: () => window.open('https://www.linkedin.com/in/jones-thala-0372a9335/', '_blank', 'noopener') },
     { group: 'Open',     label: 'Instagram',      icon: 'ph-instagram-logo',  action: () => window.open('https://www.instagram.com/jx0nes/', '_blank', 'noopener') },
     { group: 'Rack',     label: 'Toggle room lights', icon: 'ph-lightbulb',   action: toggleLights },
